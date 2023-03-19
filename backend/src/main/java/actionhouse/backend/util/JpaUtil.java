@@ -39,8 +39,8 @@ public class JpaUtil {
         if (tx.isActive()) tx.rollback();
     }
 
-    public static void execute(EntityManagerTask task) {
-        try (var em = JpaUtil.getTransactionalEntityManager()) {
+    public static void executeTransactional(EntityManager entityManager, EntityManagerTask task) {
+        try (var em = entityManager) {
             try {
                 task.execute(em);
                 JpaUtil.commit(em);
@@ -51,8 +51,8 @@ public class JpaUtil {
         }
     }
 
-    public static <T> T executeWithResult(EntityManagerTaskWithResult<T> task) {
-        try (var em = JpaUtil.getTransactionalEntityManager()) {
+    public static <T> T executeWithResultTransactional(EntityManager entityManager, EntityManagerTaskWithResult<T> task) {
+        try (var em = entityManager) {
             try {
                 var result = task.execute(em);
                 JpaUtil.commit(em);
