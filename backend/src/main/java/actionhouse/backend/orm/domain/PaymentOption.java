@@ -13,13 +13,28 @@ import lombok.ToString;
 public class PaymentOption {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String owner;
 
-    // we do not want to delete customers when we delete a payment option,
-    // but cascading PERSIST and MERGE is fine
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     private Customer customer;
+
+    public PaymentOption(Long id, String owner, Customer customer) {
+        this.id = id;
+        this.owner = owner;
+        this.customer = customer;
+    }
+
+    @Override
+    public int hashCode() { return 42; }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (this.getClass() != obj.getClass()) return false;
+        PaymentOption other = (PaymentOption) obj;
+        return id != null && id.equals(other.id);
+    }
 }

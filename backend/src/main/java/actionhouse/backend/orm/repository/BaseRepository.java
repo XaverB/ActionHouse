@@ -7,7 +7,7 @@ import jakarta.persistence.EntityManager;
  * Base class for all repositories.
  * Provides basic CRUD operations.
  *
- * @param <T>
+ * @param <T> Type parameter class
  */
 public abstract class BaseRepository<T> {
     // Java Generics do not know about runtime types, so we need to pass the type
@@ -23,21 +23,17 @@ public abstract class BaseRepository<T> {
      */
     protected final EntityManager entityManager;
 
-
+    /**
+     * Constructor
+     *
+     * @param typeParameterClass Type parameter class
+     * @param entityManager      Injected EntityManager for shared transactions
+     */
     public BaseRepository(Class<T> typeParameterClass, EntityManager entityManager) {
         this.typeParameterClass = typeParameterClass;
         this.entityManager = entityManager;
     }
 
-
-    /**
-     * Get entity by id in a transaction
-     */
-    public T getByIdTransactional(long id) {
-        return JpaUtil.executeWithResultTransactional(entityManager,
-                em -> em.find(typeParameterClass, id)
-        );
-    }
 
     /**
      * Get entity by id
@@ -47,28 +43,11 @@ public abstract class BaseRepository<T> {
     }
 
     /**
-     * Save entity in a transaction
-     */
-    public void saveTransactional(T entity) {
-        JpaUtil.executeTransactional(entityManager,
-                em -> em.persist(entity)
-        );
-    }
-
-    /**
      * Save entity
      */
-    public void save(T entity) {
+    public T save(T entity) {
         entityManager.persist(entity);
-    }
-
-    /**
-     * Update entity in a transaction
-     */
-    public T updateTransactional(T entity) {
-        return JpaUtil.executeWithResultTransactional(entityManager,
-                em -> em.merge(entity)
-        );
+        return entity;
     }
 
     /**
@@ -76,15 +55,6 @@ public abstract class BaseRepository<T> {
      */
     public T update(T entity) {
         return entityManager.merge(entity);
-    }
-
-    /**
-     * Delete entity in a transaction
-     */
-    public void deleteTransactional(T entity) {
-        JpaUtil.executeTransactional(entityManager,
-                em -> em.remove(entity)
-        );
     }
 
     /**

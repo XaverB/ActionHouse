@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
@@ -17,4 +18,13 @@ public class CreditcardPaymentOption extends PaymentOption {
     private String creditCardNumber;
     private LocalDate creditCardValidTo;
     private String cardVerificationValue;
+
+
+    public CreditcardPaymentOption(Long Id, String owner, Customer customer, String creditCardNumber, LocalDate creditCardValidTo, String cardVerificationValue) {
+        super(Id, owner, customer);
+        this.creditCardNumber = creditCardNumber;
+        this.creditCardValidTo = creditCardValidTo;
+        this.cardVerificationValue = cardVerificationValue;
+
+    }
 }

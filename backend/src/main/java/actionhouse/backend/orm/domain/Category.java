@@ -18,12 +18,17 @@ public class Category {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     // we could use "name" as the id, but I prefer artificial ids
-    @Column(unique=true)
+    @Column(unique = true)
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.REFRESH})
     private Set<Article> articles = new HashSet<>();
+
+    public Category(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

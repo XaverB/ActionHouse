@@ -23,9 +23,9 @@ public class Bid {
 
     private LocalDateTime date;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     private Customer bidder;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     private Article article;
 }

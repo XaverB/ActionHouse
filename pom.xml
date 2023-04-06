@@ -108,7 +108,7 @@
                 <configuration>
                     <derbyHome>${project.basedir}/data</derbyHome>
                     <port>1527</port>
-                    <database>WorkLogDb</database>
+                    <database>AuctionHouseDb</database>
                     <username>user</username>
                     <password>test</password>
                 </configuration>

@@ -31,10 +31,10 @@ public class Article {
 
     private LocalDateTime auctionEndDate;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     private Customer seller;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     private Customer buyer;
 
     // We are using ORDINAL here, because queries with the status as a condition could be common
@@ -42,9 +42,9 @@ public class Article {
     @Enumerated(EnumType.ORDINAL) // see https://thorben-janssen.com/hibernate-enum-mappings/
     private ArticleStatus status;
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "article", cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true)
     private Set<Bid> bids = new HashSet<>();
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.REFRESH})
     private Set<Category> categories = new HashSet<>();
 }
