@@ -79,8 +79,13 @@ public class CategoryRepositoryTest extends BaseRepositoryTest {
         Assert.assertNotNull(c);
 
         categoryRepository.delete(c);
-        Category actual = categoryRepository.getById(5L);
         commit();
+
+        entityManager = JpaUtil.getTransactionalEntityManager();
+        categoryRepository = new CategoryRepository(entityManager);
+
+        Category actual = categoryRepository.getById(5L);
+
 
         Assert.assertNull(actual);
     }
@@ -92,6 +97,8 @@ public class CategoryRepositoryTest extends BaseRepositoryTest {
         Assert.assertNotNull(c);
 
         categoryRepository.delete(c);
+        commit();
+
         Category actual = categoryRepository.getById(1L);
         Assert.assertThrows(RollbackException.class, () -> commit());
     }

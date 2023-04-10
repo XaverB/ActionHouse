@@ -31,4 +31,18 @@ public class Category {
         this.id = id;
         this.name = name;
     }
+
+    @Override
+    public int hashCode() {
+        return 42;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        final Category other = (Category) obj;
+        return id != null && id.equals(other.id);
+    }
 }

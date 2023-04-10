@@ -41,19 +41,17 @@ public class Customer {
 
     // we do not want to delete articles if we delete a customer
     // therefore we are just cascading PERSIST and MERGE
-    @OneToMany(mappedBy = "seller", cascade = {CascadeType.REFRESH}, orphanRemoval = true)
+    @OneToMany(mappedBy = "seller", cascade = {CascadeType.REFRESH})
     @ToString.Exclude
     private Set<Article> soldArticles = new HashSet<>();
 
     // we do not want to delete articles if we delete a customer
     // therefore we are just cascading PERSIST and MERGE
-    @OneToMany(mappedBy = "buyer", cascade = {CascadeType.REFRESH}, orphanRemoval = true)
+    @OneToMany(mappedBy = "buyer", cascade = {CascadeType.REFRESH})
     @ToString.Exclude
     private Set<Article> boughtArticles = new HashSet<>();
 
-
-    // I thought about not declaring this property, but all bids of a customer could be quite interesting
-    @OneToMany(mappedBy = "bidder", cascade = CascadeType.REFRESH, orphanRemoval = true)
+    @OneToMany(mappedBy = "bidder", cascade = CascadeType.REFRESH)
     @ToString.Exclude
     private Set<Bid> bids = new HashSet<>();
 

@@ -17,15 +17,37 @@ public class Bid {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     private double bid;
 
     private LocalDateTime date;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private Customer bidder;
 
     @ManyToOne(cascade = {CascadeType.REFRESH})
     private Article article;
+
+    public Bid(Long id, double bid, LocalDateTime date, Customer bidder, Article article) {
+        this.id = id;
+        this.bid = bid;
+        this.date = date;
+        this.bidder = bidder;
+        this.article = article;
+    }
+
+    @Override
+    public int hashCode() {
+        return 42;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        final Bid other = (Bid) obj;
+        return id != null && id.equals(other.id);
+    }
 }

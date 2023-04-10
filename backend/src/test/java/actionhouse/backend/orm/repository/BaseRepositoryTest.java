@@ -12,11 +12,17 @@ import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
+import org.junit.Assert;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.MalformedURLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class BaseRepositoryTest {
 
@@ -64,6 +70,11 @@ public abstract class BaseRepositoryTest {
         entityManager.getTransaction().commit();
     }
 
+    protected static <T> void assertArrayContainsInAnyOrder(Collection<T> expected, Collection<T> actual) {
+        Assert.assertEquals(expected.size(), actual.size());
+        Assert.assertTrue(expected.containsAll(actual));
+        Assert.assertTrue(actual.containsAll(expected));
+    }
 
     protected static String getPathToTestResources(String fileName) {
         String path = "src/test/resources/" + fileName;
@@ -83,6 +94,116 @@ public abstract class BaseRepositoryTest {
 
     protected DatabaseOperation getTearDownOperation() {
         return DatabaseOperation.DELETE_ALL;
+    }
+
+    protected static Set<Bid> getDataSetBidsForArticle(int articleId, String dataSetName) throws MalformedURLException, DataSetException {
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File(getPathToTestResources(dataSetName)));
+        var bidTable = expectedDataSet.getTable("BID");
+
+        Set<Bid> bids = new HashSet<>();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+
+        for(int i = 0; i < bidTable.getRowCount(); i++) {
+            if(Integer.valueOf((String) bidTable.getValue(i, "ARTICLE_ID")) == articleId) {
+                bids.add(
+                        new Bid(
+                                Long.valueOf((String) bidTable.getValue(i, "ID")),
+                                Float.valueOf((String) bidTable.getValue(i, "BID")),
+                                LocalDateTime.parse((String) bidTable.getValue(i, "DATE"), formatter),
+                                getDataSetCustomer(Integer.valueOf((String) bidTable.getValue(i, "BIDDER_ID")), dataSetName),
+                                // do not include bids or we will end up in endless recursion
+                                getDataSetArticleWithoutBids(articleId, dataSetName)
+                        )
+                );
+            }
+        }
+        return bids;
+    }
+
+    protected static Article getDataSetArticle(int index, String dataSetName) throws MalformedURLException, DataSetException {
+        // db ids begin with 1, but fucking dbunit rows begin with 0
+        index = index - 1;
+
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File(getPathToTestResources(dataSetName)));
+        var articleTable = expectedDataSet.getTable("ARTICLE");
+
+        var sellerId = Integer.valueOf((String) articleTable.getValue(index, "SELLER_ID"));
+        var buyerId = Integer.valueOf((String) articleTable.getValue(index, "BUYER_ID"));
+
+        Customer seller = getDataSetCustomer(sellerId, dataSetName);
+        Customer buyer = getDataSetCustomer(buyerId, dataSetName);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+
+
+        Set<Bid> bids = getDataSetBidsForArticle(
+                Integer.valueOf((String) articleTable.getValue(index, "ID")),
+                dataSetName);
+
+        var article = new Article(
+                Long.valueOf((String) articleTable.getValue(index, "ID")),
+                LocalDateTime.parse((String) articleTable.getValue(index, "AUCTIONSTARTDATE"), formatter),
+                LocalDateTime.parse((String) articleTable.getValue(index, "AUCTIONENDDATE"), formatter),
+                (String) articleTable.getValue(index, "DESCRIPTION"),
+                Float.valueOf((String) articleTable.getValue(index, "RESERVEPRICE")),
+                Float.valueOf((String) articleTable.getValue(index, "HAMMERPRICE")),
+                seller,
+                buyer,
+                ArticleStatus.values()[Integer.valueOf((String)articleTable.getValue(index, "STATUS"))]
+        );
+        article.setBids(bids);
+        article.setCategories(getDataSetCategoriesForArticle(Math.toIntExact(article.getId()), dataSetName));
+
+        return article;
+    }
+
+    protected static Article getDataSetArticleWithoutBids(int index, String dataSetName) throws MalformedURLException, DataSetException {
+        // db ids begin with 1, but fucking dbunit rows begin with 0
+        index = index - 1;
+
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File(getPathToTestResources(dataSetName)));
+        var articleTable = expectedDataSet.getTable("ARTICLE");
+
+        var sellerId = Integer.valueOf((String) articleTable.getValue(index, "SELLER_ID"));
+        var buyerId = Integer.valueOf((String) articleTable.getValue(index, "BUYER_ID"));
+
+        Customer seller = getDataSetCustomer(sellerId, dataSetName);
+        Customer buyer = getDataSetCustomer(buyerId, dataSetName);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+
+        var article = new Article(
+                Long.valueOf((String) articleTable.getValue(index, "ID")),
+                LocalDateTime.parse((String) articleTable.getValue(index, "AUCTIONSTARTDATE"), formatter),
+                LocalDateTime.parse((String) articleTable.getValue(index, "AUCTIONENDDATE"), formatter),
+                (String) articleTable.getValue(index, "DESCRIPTION"),
+                Float.valueOf((String) articleTable.getValue(index, "RESERVEPRICE")),
+                Float.valueOf((String) articleTable.getValue(index, "HAMMERPRICE")),
+                seller,
+                buyer,
+                ArticleStatus.values()[Integer.valueOf((String)articleTable.getValue(index, "STATUS"))]
+        );
+        article.setBids(new HashSet<>());
+        article.setCategories(getDataSetCategoriesForArticle(Math.toIntExact(article.getId()), dataSetName));
+
+        return article;
+    }
+
+    protected static Set<Category> getDataSetCategoriesForArticle(int articleId, String dataSetName) throws MalformedURLException, DataSetException {
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File(getPathToTestResources(dataSetName)));
+        var articleCategoryTable = expectedDataSet.getTable("ARTICLE_CATEGORY");
+
+        Set<Category> categories = new HashSet<>();
+
+        for(int i = 0; i < articleCategoryTable.getRowCount(); i++) {
+            if(Integer.valueOf((String) articleCategoryTable.getValue(i, "ARTICLE_ID")) == articleId) {
+                categories.add(
+                        getDataSetCategory(Integer.valueOf((String) articleCategoryTable.getValue(i, "CATEGORIES_ID")), dataSetName)
+                );
+            }
+        }
+        return categories;
     }
 
     protected static Category getDataSetCategory(int index, String dataSetName) throws MalformedURLException, DataSetException {

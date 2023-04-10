@@ -1,9 +1,6 @@
 package actionhouse.backend.orm.repository;
 
-import actionhouse.backend.orm.domain.Address;
-import actionhouse.backend.orm.domain.BankPaymentOption;
-import actionhouse.backend.orm.domain.CreditcardPaymentOption;
-import actionhouse.backend.orm.domain.Customer;
+import actionhouse.backend.orm.domain.*;
 import actionhouse.backend.util.JpaUtil;
 import org.dbunit.dataset.DataSetException;
 import org.junit.*;
@@ -14,6 +11,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.net.MalformedURLException;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 
 
 public class CustomerRepositoryTest extends BaseRepositoryTest {
@@ -103,6 +102,68 @@ public class CustomerRepositoryTest extends BaseRepositoryTest {
         Assert.assertEquals("newFirstName", actual.getFirstname());
     }
 
+    @Test
+    public void updateWithRemovedPaymentOptionsRemovesPaymentOptions()
+    {
+        Customer c = customerRepository.getById(1l);
+        Assert.assertNotNull(c);
+        Assert.assertTrue(c.getPaymentOptions().size() > 0);
+
+        c.getPaymentOptions().clear();
+        customerRepository.update(c);
+        commit();
+
+        entityManager = JpaUtil.getTransactionalEntityManager();
+        customerRepository = new CustomerRepository(entityManager);
+        Customer actual = customerRepository.getById(1l);
+
+        Assert.assertTrue(actual.getPaymentOptions().size() == 0);
+    }
+
+    @Test
+    public void updateWithAddedPaymentOptionsAddsPaymentOptions()
+    {
+        Customer c = customerRepository.getById(1l);
+        Assert.assertNotNull(c);
+        Assert.assertTrue(c.getPaymentOptions().size() == 2);
+
+        c.getPaymentOptions().add(
+                new BankPaymentOption(null, "newBank", c, "newBank", "newBank")
+        );
+        customerRepository.update(c);
+        commit();
+
+        entityManager = JpaUtil.getTransactionalEntityManager();
+        customerRepository = new CustomerRepository(entityManager);
+        Customer actual = customerRepository.getById(1l);
+
+        PaymentOption newPaymentOption = actual.getPaymentOptions().stream()
+                .filter(p -> p instanceof BankPaymentOption)
+                .filter(p -> ((BankPaymentOption) p).getBankIdentifier().equals("newBank"))
+                .findFirst()
+                .orElse(null);
+
+        Assert.assertTrue(actual.getPaymentOptions().size() == 3);
+        Assert.assertNotNull(newPaymentOption);
+        Assert.assertTrue(newPaymentOption.getId() != null);
+    }
+
+    @Test
+    public void getTopSellersWithOneReturnsTopSeller() throws MalformedURLException, DataSetException {
+        // Arrange
+        var expected = getDataSetCustomer(1, "full.xml");
+
+        // Act
+        var actual = customerRepository.getTopSellers(1)
+                .stream()
+                .findFirst()
+                .orElse(null);
+        commit();
+
+        // Assert
+        Assert.assertEquals(expected, actual);
+    }
+
     private static Customer createDummyCustomer() {
         var billingAddress = new Address("a", "a", "a", "a", "a");
         var shippingAddress = new Address("b", "b", "b", "b", "b");
@@ -119,10 +180,9 @@ public class CustomerRepositoryTest extends BaseRepositoryTest {
 
     private static void assertCustomer(Customer expected, Customer actual) {
         Assert.assertEquals(expected, actual);
-        Assert.assertEquals(expected.getPaymentOptions().size(), actual.getPaymentOptions().size());
-        Assert.assertTrue(expected.getPaymentOptions().containsAll(actual.getPaymentOptions()));
-        Assert.assertTrue(actual.getPaymentOptions().containsAll(expected.getPaymentOptions()));
+        assertArrayContainsInAnyOrder(expected.getPaymentOptions(), actual.getPaymentOptions());
         Assert.assertEquals(expected.getShippingAddress(), actual.getShippingAddress());
         Assert.assertEquals(expected.getPaymentAddress(), actual.getPaymentAddress());
     }
+
 }
