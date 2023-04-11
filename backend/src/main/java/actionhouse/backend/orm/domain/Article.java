@@ -24,9 +24,9 @@ public class Article {
 
     private String description;
 
-    private float reservePrice;
+    private Float reservePrice;
 
-    private float hammerPrice;
+    private Float hammerPrice;
 
     private LocalDateTime auctionStartDate;
 
@@ -51,7 +51,7 @@ public class Article {
     @ToString.Exclude
     private Set<Category> categories = new HashSet<>();
 
-    public Article(Long articleId, LocalDateTime auctionStartDate, LocalDateTime auctionEndDate, String description, float reservePrice, float hammerPrice, Customer seller, Customer buyer, ArticleStatus articleStatus) {
+    public Article(Long articleId, LocalDateTime auctionStartDate, LocalDateTime auctionEndDate, String description, Float reservePrice, Float hammerPrice, Customer seller, Customer buyer, ArticleStatus articleStatus) {
         this.id = articleId;
         this.auctionStartDate = auctionStartDate;
         this.auctionEndDate = auctionEndDate;

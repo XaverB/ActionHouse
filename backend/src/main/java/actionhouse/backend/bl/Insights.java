@@ -1,25 +1,35 @@
 package actionhouse.backend.bl;
 
 import actionhouse.backend.orm.domain.Article;
+import actionhouse.backend.orm.domain.ArticleStatus;
 import actionhouse.backend.orm.domain.Customer;
 import actionhouse.backend.orm.repository.ArticleRepository;
 import actionhouse.backend.orm.repository.CustomerRepository;
+import actionhouse.backend.orm.repository.IArticleRepository;
+import actionhouse.backend.orm.repository.ICustomerRepository;
 import actionhouse.backend.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import org.hibernate.cfg.NotYetImplementedException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Insights {
 
     private final EntityManager entityManager;
-    private final ArticleRepository articleRepository;
-    private final CustomerRepository customerRepository;
+    private final IArticleRepository articleRepository;
+    private final ICustomerRepository customerRepository;
 
     public Insights() {
         entityManager = JpaUtil.getTransactionalEntityManager();
         articleRepository = new ArticleRepository(entityManager);
         customerRepository = new CustomerRepository(entityManager);
+    }
+
+    public Insights(EntityManager entityManager, IArticleRepository articleRepository, ICustomerRepository customerRepository) {
+        this.entityManager = entityManager;
+        this.articleRepository = articleRepository;
+        this.customerRepository = customerRepository;
     }
 
 
@@ -34,7 +44,26 @@ public class Insights {
      */
     public List<Article> findArticlesByDescription(String searchPhrase, Double
             maxReservePrice, ArticleOrder order) {
-        throw new NotYetImplementedException();
+        var articles = articleRepository.findArticlesByDescription(searchPhrase, maxReservePrice);
+
+        return order == null
+                ? articles
+                : articles.stream()
+                .sorted((a1, a2) -> {
+                    switch (order) {
+                        case HAMMER_PRICE:
+                            return Double.compare(a1.getHammerPrice(), a2.getHammerPrice());
+                        case RESERVE_PRICE:
+                            return Double.compare(a1.getReservePrice(), a2.getReservePrice());
+                        case NAME:
+                            return a1.getDescription().compareTo(a2.getDescription());
+                        case AUCTION_START_DATE:
+                            return a1.getAuctionStartDate().compareTo(a2.getAuctionStartDate());
+                        default:
+                            throw new IllegalArgumentException("Unknown order: " + order);
+                    }
+                })
+                .toList();
     }
 
     /**
@@ -44,10 +73,36 @@ public class Insights {
      * liefert den HammerPrice, sollte die Auktion beendet sein und der Artikel erfolgreich versteigert
      * worden sein.
      * liefert null, sollte die Auktion beendet sein und der Artikel NICHT versteigert worden sein.
+     *
      * @throws ArticleNotFoundException
      */
-    public double getArticlePrice(Article Id) throws ArticleNotFoundException {
-        throw new NotYetImplementedException();
+    public Double getArticlePrice(Long id) throws ArticleNotFoundException {
+        Article article = articleRepository.getById(id);
+        entityManager.getTransaction().commit();
+
+        if (article == null) {
+            throw new ArticleNotFoundException(id);
+        }
+
+        if (article.getAuctionStartDate() == null) {
+            return null;
+        }
+
+        boolean isAuctionStillRunning = article.getAuctionEndDate() == null
+                || article.getAuctionEndDate().isAfter(LocalDateTime.now());
+        if (isAuctionStillRunning) {
+            return article
+                    .getBids()
+                    .stream()
+                    .mapToDouble(b -> b.getBid())
+                    .max()
+                    .orElse(0);
+        }
+
+        return article.getStatus() == ArticleStatus.SOLD
+                // this cast is okay, because we are fine with a loss of precision
+                ? (double) article.getHammerPrice()
+                : null;
     }
 
     /**
@@ -55,7 +110,7 @@ public class Insights {
      * verkauften Artikel).
      */
     public List<Customer> getTopSellers(int count) {
-        var topSellers =  customerRepository.getTopSellers(count);
+        var topSellers = customerRepository.getTopSellers(count);
         entityManager.getTransaction().commit();
         return topSellers;
     }
@@ -63,6 +118,7 @@ public class Insights {
     /**
      * Liefert die top count versteigerten Artikel basierend auf der Preisdifferenz zwischen HammerPrice
      * und ReservePrice.
+     *
      * @param count
      * @return
      */

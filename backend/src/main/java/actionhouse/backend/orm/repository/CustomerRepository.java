@@ -6,7 +6,7 @@ import org.hibernate.cfg.NotYetImplementedException;
 
 import java.util.List;
 
-public class CustomerRepository extends BaseRepository<Customer> {
+public class CustomerRepository extends BaseRepository<Customer> implements ICustomerRepository {
     public CustomerRepository(EntityManager entityManager) {
         super(Customer.class, entityManager);
     }
@@ -15,6 +15,7 @@ public class CustomerRepository extends BaseRepository<Customer> {
      * Liefert die top count Verkäufer basierend auf Ihrem Umsatz (Summe HammerPrice aller
      * verkauften Artikel).
      */
+    @Override
     public List<Customer> getTopSellers(int count) {
         return entityManager.createQuery(
                         "SELECT c FROM Customer c " +

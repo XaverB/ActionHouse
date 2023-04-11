@@ -9,7 +9,7 @@ import jakarta.persistence.EntityManager;
  *
  * @param <T> Type parameter class
  */
-public abstract class BaseRepository<T> {
+public abstract class BaseRepository<T> implements IBaseRepository<T> {
     // Java Generics do not know about runtime types, so we need to pass the type
     // parameter class to the constructor
     // See https://stackoverflow.com/a/3437930
@@ -38,6 +38,7 @@ public abstract class BaseRepository<T> {
     /**
      * Get entity by id
      */
+    @Override
     public T getById(long id) {
         return entityManager.find(typeParameterClass, id);
     }
@@ -45,6 +46,7 @@ public abstract class BaseRepository<T> {
     /**
      * Save entity
      */
+    @Override
     public T save(T entity) {
         entityManager.persist(entity);
         return entity;
@@ -53,6 +55,7 @@ public abstract class BaseRepository<T> {
     /**
      * Update entity
      */
+    @Override
     public T update(T entity) {
         return entityManager.merge(entity);
     }
@@ -60,6 +63,7 @@ public abstract class BaseRepository<T> {
     /**
      * Delete entity
      */
+    @Override
     public void delete(T entity) {
         entityManager.remove(entity);
     }

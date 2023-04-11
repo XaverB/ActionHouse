@@ -14,6 +14,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.net.MalformedURLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class ArticleRepositoryTest extends BaseRepositoryTest {
     private ArticleRepository articleRepository;
@@ -151,6 +152,62 @@ public class ArticleRepositoryTest extends BaseRepositoryTest {
         Assert.assertNotNull(articles.stream().filter(a -> a.getId() == 5L).findFirst());
         Assert.assertNotNull(articles.stream().filter(a -> a.getId() == 1L).findFirst());
         Assert.assertNotNull(articles.stream().filter(a -> a.getId() == 7L).findFirst());
+    }
+
+    @Test
+    public void findArticleByDescriptionWithValidDescriptionAndNullReservePriceReturnsArticle() throws MalformedURLException, DataSetException {
+        var expected = getDataSetArticle(1, "full.xml");
+
+        var actual = articleRepository.findArticlesByDescription("MacBook Pro", null);
+        commit();
+
+        Assert.assertEquals(1, actual.size());
+        assertArticle(expected, actual.get(0));
+    }
+
+    @Test
+    public void findArticleByDescriptionWithValidDescriptionAndZeroReservePriceReturnsArticle() throws MalformedURLException, DataSetException {
+        var expected = getDataSetArticle(1, "full.xml");
+
+        var actual = articleRepository.findArticlesByDescription("MacBook Pro", 0d);
+        commit();
+
+        Assert.assertEquals(1, actual.size());
+        assertArticle(expected, actual.get(0));
+    }
+
+    @Test
+    public void findArticleByDescriptionWithValidDescriptionAndZeroReservePriceReturnsArticles() throws MalformedURLException, DataSetException {
+
+        ArrayList<Article> expected = new ArrayList<>();
+        expected.add(getDataSetArticle(1, "full.xml"));
+        expected.add(getDataSetArticle(2, "full.xml"));
+        expected.add(getDataSetArticle(4, "full.xml"));
+        expected.add(getDataSetArticle(5, "full.xml"));
+        expected.add(getDataSetArticle(6, "full.xml"));
+        expected.add(getDataSetArticle(7, "full.xml"));
+
+        var actual = articleRepository.findArticlesByDescription("a", 0d);
+        commit();
+
+        Assert.assertEquals(expected.size(), actual.size());
+        for(int i = 0; i < expected.size(); i++) {
+            assertArticle(expected.get(i), actual.get(i));
+        }
+    }
+
+    @Test
+    public void findArticleByDescriptionWithValidDescriptionAndReservePriceReturnsArticles() throws MalformedURLException, DataSetException {
+        ArrayList<Article> expected = new ArrayList<>();
+        expected.add(getDataSetArticle(2, "full.xml"));
+        expected.add(getDataSetArticle(4, "full.xml"));
+        expected.add(getDataSetArticle(6, "full.xml"));
+
+        var actual = articleRepository.findArticlesByDescription("a", 500d);
+        commit();
+
+        Assert.assertEquals(expected.size(), actual.size());
+        assertArrayContainsInAnyOrder(expected, actual);
     }
 
     private void assertArticle(Article expected, Article actual) {
