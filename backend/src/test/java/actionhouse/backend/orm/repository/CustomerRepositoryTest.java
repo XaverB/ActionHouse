@@ -2,10 +2,10 @@ package actionhouse.backend.orm.repository;
 
 import actionhouse.backend.orm.domain.*;
 import actionhouse.backend.util.JpaUtil;
+import jakarta.persistence.PersistenceException;
 import org.dbunit.dataset.DataSetException;
-import org.junit.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.Assert;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -19,29 +19,30 @@ public class CustomerRepositoryTest extends BaseRepositoryTest {
     CustomerRepository customerRepository;
 
     public CustomerRepositoryTest() throws Exception {
-
-        entityManager = JpaUtil.getTransactionalEntityManager();
-        customerRepository = new CustomerRepository(entityManager);
         onSetUp();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void init() throws Exception {
         JpaUtil.getEntityManagerFactory();
     }
 
-    @AfterClass
+    @AfterAll
     public static void cleanup() {
         JpaUtil.closeEntityManagerFactory();
     }
 
     @BeforeEach
     public void setUp() throws Exception {
+        entityManager = JpaUtil.getTransactionalEntityManager();
+        customerRepository = new CustomerRepository(entityManager);
         refreshDatabase();
     }
 
     @AfterEach
     public void tearDown() throws Exception {
+        if(entityManager.getTransaction().isActive())
+            entityManager.getTransaction().rollback();
     }
 
     @ParameterizedTest
@@ -73,13 +74,25 @@ public class CustomerRepositoryTest extends BaseRepositoryTest {
     }
 
     @Test
-    public void deleteWithValidCustomerDeletesCustomer()
+    public void deleteWithInvalidCustomerThrowsConstraintViolationException()
     {
         Customer c = customerRepository.getById(1l);
         Assert.assertNotNull(c);
 
         customerRepository.delete(c);
         Customer actual = customerRepository.getById(1l);
+
+        Assert.assertThrows(PersistenceException.class, () -> commit());
+    }
+
+    @Test
+    public void deleteWithValidCustomerDeletesCustomer()
+    {
+        Customer c = customerRepository.getById(9l);
+        Assert.assertNotNull(c);
+
+        customerRepository.delete(c);
+        Customer actual = customerRepository.getById(9l);
         commit();
 
         Assert.assertNull(actual);

@@ -11,6 +11,7 @@ import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.ext.mssql.InsertIdentityOperation;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Assert;
 
@@ -59,7 +60,10 @@ public abstract class BaseRepositoryTest {
     protected void refreshDatabase() throws Exception {
         IDatabaseConnection dbUnitConn = new DatabaseConnection(databaseTester.getConnection().getConnection(), "APP");
         dbUnitConn.getConfig().setFeature(DatabaseConfig.FEATURE_ALLOW_EMPTY_FIELDS, true);
+//        DatabaseOperation.CLEAN_INSERT.execute(dbUnitConn, getDataSet());
+        DatabaseOperation.DELETE_ALL.execute(dbUnitConn, getDataSet());
         DatabaseOperation.CLEAN_INSERT.execute(dbUnitConn, getDataSet());
+//        new InsertIdentityOperation(DatabaseOperation.CLEAN_INSERT).execute(dbUnitConn, getDataSet());
     }
 
     protected void onTearDown() throws Exception {
@@ -104,8 +108,8 @@ public abstract class BaseRepositoryTest {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
 
-        for(int i = 0; i < bidTable.getRowCount(); i++) {
-            if(Integer.valueOf((String) bidTable.getValue(i, "ARTICLE_ID")) == articleId) {
+        for (int i = 0; i < bidTable.getRowCount(); i++) {
+            if (Integer.valueOf((String) bidTable.getValue(i, "ARTICLE_ID")) == articleId) {
                 bids.add(
                         new Bid(
                                 Long.valueOf((String) bidTable.getValue(i, "ID")),
@@ -150,7 +154,7 @@ public abstract class BaseRepositoryTest {
                 Float.valueOf((String) articleTable.getValue(index, "HAMMERPRICE")),
                 seller,
                 buyer,
-                ArticleStatus.values()[Integer.valueOf((String)articleTable.getValue(index, "STATUS"))]
+                ArticleStatus.values()[Integer.valueOf((String) articleTable.getValue(index, "STATUS"))]
         );
         article.setBids(bids);
         article.setCategories(getDataSetCategoriesForArticle(Math.toIntExact(article.getId()), dataSetName));
@@ -182,7 +186,7 @@ public abstract class BaseRepositoryTest {
                 Float.valueOf((String) articleTable.getValue(index, "HAMMERPRICE")),
                 seller,
                 buyer,
-                ArticleStatus.values()[Integer.valueOf((String)articleTable.getValue(index, "STATUS"))]
+                ArticleStatus.values()[Integer.valueOf((String) articleTable.getValue(index, "STATUS"))]
         );
         article.setBids(new HashSet<>());
         article.setCategories(getDataSetCategoriesForArticle(Math.toIntExact(article.getId()), dataSetName));
@@ -196,8 +200,8 @@ public abstract class BaseRepositoryTest {
 
         Set<Category> categories = new HashSet<>();
 
-        for(int i = 0; i < articleCategoryTable.getRowCount(); i++) {
-            if(Integer.valueOf((String) articleCategoryTable.getValue(i, "ARTICLE_ID")) == articleId) {
+        for (int i = 0; i < articleCategoryTable.getRowCount(); i++) {
+            if (Integer.valueOf((String) articleCategoryTable.getValue(i, "ARTICLE_ID")) == articleId) {
                 categories.add(
                         getDataSetCategory(Integer.valueOf((String) articleCategoryTable.getValue(i, "CATEGORIES_ID")), dataSetName)
                 );
@@ -221,7 +225,6 @@ public abstract class BaseRepositoryTest {
     }
 
     protected static Customer getDataSetCustomer(int index, String dataSetName) throws MalformedURLException, DataSetException {
-        // db ids begin with 1, but fucking dbunit rows begin with 0
         index = index - 1;
 
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File(getPathToTestResources(dataSetName)));
@@ -253,8 +256,8 @@ public abstract class BaseRepositoryTest {
 
         for (int i = 0; i < paymentTable.getRowCount(); i++) {
 
-            if (paymentTable.getValue(i, "DTYPE").equals("BankPaymentOption"))
-                if (Long.valueOf((String) paymentTable.getValue(i, "CUSTOMER_ID")).equals(c.getId())) {
+            if (Long.valueOf((String) paymentTable.getValue(i, "CUSTOMER_ID")).equals(c.getId()))
+                if (paymentTable.getValue(i, "DTYPE").equals("BankPaymentOption")) {
                     {
                         BankPaymentOption bankPayment = new BankPaymentOption(
                                 Long.valueOf((String) paymentTable.getValue(i, "ID")),

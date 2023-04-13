@@ -1,22 +1,22 @@
-package actionhouse.backend.util.actionhouse.backend.util.tools;
+package actionhouse.backend.tools;
 
-import actionhouse.backend.orm.domain.*;
+import actionhouse.backend.orm.domain.Category;
 import actionhouse.backend.orm.repository.CategoryRepository;
 import actionhouse.backend.util.JpaUtil;
+import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
-public class TestDataGenerator {
+public class TestInsert {
 
-    public static void main(String[] args) {
+    @Test
+    public void TestInsert() {
         JpaUtil.getEntityManagerFactory();
 
         var em = JpaUtil.getTransactionalEntityManager();
         CategoryRepository categoryRepository = new CategoryRepository(em);
 
-        var category = categoryRepository.save(new Category(null,"Antiquitäten"));
+        var category = categoryRepository.save(new Category(null,"Antiquitäten " + LocalDateTime.now().toLocalTime().toString()));
         em.getTransaction().commit();
 
         System.out.println("Inserted category: " + category.getId());
@@ -24,4 +24,5 @@ public class TestDataGenerator {
 
         JpaUtil.closeEntityManagerFactory();
     }
+
 }

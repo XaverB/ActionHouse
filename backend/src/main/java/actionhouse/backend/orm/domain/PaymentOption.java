@@ -13,7 +13,11 @@ import lombok.ToString;
 public class PaymentOption {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableGenerator(
+            name = "Pay_Gen",
+            initialValue = 50,
+            allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Pay_Gen")
     private Long id;
 
     private String owner;

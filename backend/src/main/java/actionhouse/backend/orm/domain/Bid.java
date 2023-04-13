@@ -16,14 +16,18 @@ import java.time.LocalDateTime;
 public class Bid {
 
     @Id
-    @GeneratedValue
+    @TableGenerator(
+            name = "Bid_Gen",
+            initialValue = 50,
+            allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Bid_Gen")
     private Long id;
 
     private double bid;
 
     private LocalDateTime date;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     private Customer bidder;
 
     @ManyToOne(cascade = {CascadeType.REFRESH})

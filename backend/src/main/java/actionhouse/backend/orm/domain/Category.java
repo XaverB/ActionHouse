@@ -17,7 +17,11 @@ import java.util.Set;
 public class Category {
 
     @Id
-    @GeneratedValue
+    @TableGenerator(
+            name = "Cat_Gen",
+            initialValue = 50,
+            allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Cat_Gen")
     private Long id;
 
     // we could use "name" as the id, but I prefer artificial ids

@@ -3,9 +3,10 @@ package actionhouse.backend.orm.repository;
 import actionhouse.backend.orm.domain.*;
 import actionhouse.backend.util.JpaUtil;
 import org.dbunit.dataset.DataSetException;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,35 +22,40 @@ public class ArticleRepositoryTest extends BaseRepositoryTest {
 
     public ArticleRepositoryTest() throws Exception {
 
-        entityManager = JpaUtil.getTransactionalEntityManager();
-        articleRepository = new ArticleRepository(entityManager);
+
         onSetUp();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void init() throws Exception {
         JpaUtil.getEntityManagerFactory();
     }
 
-    @AfterClass
+    @AfterAll
     public static void cleanup() {
         JpaUtil.closeEntityManagerFactory();
     }
 
     @BeforeEach
     public void setUp() throws Exception {
+        entityManager = JpaUtil.getTransactionalEntityManager();
+        articleRepository = new ArticleRepository(entityManager);
         refreshDatabase();
     }
 
     @AfterEach
     public void tearDown() throws Exception {
+        if(entityManager.getTransaction().isActive())
+            entityManager.getTransaction().rollback();
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7})
     public void getByIdWithValidIdReturnsCategory(int articleId) throws MalformedURLException, DataSetException {
         var expected = getDataSetArticle(articleId, "full.xml");
+
         var actual = articleRepository.getById(articleId);
+        commit();
 
         assertArticle(expected, actual);
     }
@@ -58,6 +64,12 @@ public class ArticleRepositoryTest extends BaseRepositoryTest {
     public void saveArticleWithValidArticleSavesArticle() throws MalformedURLException, DataSetException {
         var expected = getDataSetArticle(8, "new_article.xml");
         expected.setId(null);
+        expected.setSeller(null);
+        expected.setBuyer(null);
+        expected.getBids().clear();
+        expected.getCategories().clear();
+        expected.setDescription("asdasd");
+
 
         var actual = articleRepository.save(expected);
         entityManager.getTransaction().commit();
@@ -113,15 +125,14 @@ public class ArticleRepositoryTest extends BaseRepositoryTest {
         Article article = articleRepository.getById(1L);
         Assert.assertEquals(4, article.getBids().size());
 
-        article.getBuyer().getBoughtArticles().remove(article);
-        article.setBuyer(null);
+        article.removeBuyer();
         article.setStatus(ArticleStatus.NOT_SOLD);
 
         var bid = new Bid(null, 1000.0, LocalDateTime.of(2025, 1, 1, 1, 1),
-                bidder,
+                null,
                 article);
-        bidder.getBids().add(bid);
-        article.getBids().add(bid);
+        bidder.addBid(bid);
+        article.addBid(bid);
 
         articleRepository.update(article);
         commit();

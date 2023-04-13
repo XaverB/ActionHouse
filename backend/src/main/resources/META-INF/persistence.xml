@@ -22,7 +22,8 @@
                       value="org.hibernate.dialect.DerbyDialect" />
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
-            <property name="hibernate.hbm2ddl.auto" value="create-drop" />
+            <property name="hibernate.use_sql_comments" value="true" />
+            <property name="hibernate.hbm2ddl.auto" value="create" />
             <property name="qualifiedTableNames" value="true"/>
         </properties>
     </persistence-unit>

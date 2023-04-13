@@ -11,7 +11,12 @@ import java.util.Set;
 @Getter @Setter @ToString
 public class Customer {
 
-    @Id @GeneratedValue
+    @Id
+    @TableGenerator(
+            name = "Cus_Gen",
+            initialValue = 50,
+            allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Cus_Gen")
     private Long id;
     private String firstname;
     private String lastname;

@@ -19,7 +19,11 @@ import java.util.Set;
 public class Article {
 
     @Id
-    @GeneratedValue
+    @TableGenerator(
+            name = "Art_Gen",
+            initialValue = 50,
+            allocationSize = 100)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Art_Gen")
     private Long id;
 
     private String description;
@@ -32,10 +36,10 @@ public class Article {
 
     private LocalDateTime auctionEndDate;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private Customer seller;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private Customer buyer;
 
     // We are using ORDINAL here, because queries with the status as a condition could be common
@@ -61,6 +65,89 @@ public class Article {
         this.seller = seller;
         this.buyer = buyer;
         this.status = articleStatus;
+    }
+
+    public void addBid(Bid bid) {
+        if(bid == null) {
+            throw new IllegalArgumentException("bid must not be null");
+        }
+
+        if(bid.getArticle() != null) {
+            bid.getArticle().getBids().remove(bid);
+        }
+        bid.setArticle(this);
+        bids.add(bid);
+    }
+
+    public void removeBid(Bid bid) {
+        if(bid == null) {
+            throw new IllegalArgumentException("bid must not be null");
+        }
+        bids.remove(bid);
+        bid.setArticle(null);
+    }
+
+    public void addBuyer(Customer buyer) {
+        if(buyer == null) {
+            throw new IllegalArgumentException("buyer must not be null");
+        }
+        if(buyer.getBoughtArticles().contains(this)) {
+            buyer.removeBoughtArticle(this);
+        }
+        buyer.addBoughtArticle(this);
+        this.buyer = buyer;
+    }
+
+    public void removeBuyer() {
+        if(buyer == null) {
+            throw new IllegalArgumentException("buyer must not be null");
+        }
+        if(buyer.getBoughtArticles().contains(this)) {
+            buyer.removeBoughtArticle(this);
+        }
+        this.buyer = null;
+    }
+
+    public void addSeller(Customer seller) {
+        if(seller == null) {
+            throw new IllegalArgumentException("seller must not be null");
+        }
+        if(seller.getSoldArticles().contains(this)) {
+            seller.removeSoldArticle(this);
+        }
+        seller.addSoldArticle(this);
+        this.seller = seller;
+    }
+
+    public void removeSeller() {
+        if(seller == null) {
+            throw new IllegalArgumentException("seller must not be null");
+        }
+        if(seller.getSoldArticles().contains(this)) {
+            seller.removeSoldArticle(this);
+        }
+        this.seller = null;
+    }
+
+    public void addCategory(Category category) {
+        if(category == null) {
+            throw new IllegalArgumentException("category must not be null");
+        }
+        if(category.getArticles().contains(this)) {
+            category.getArticles().add(this);
+        }
+        category.getArticles().add(this);
+        categories.add(category);
+    }
+
+    public void removeArticle(Category category) {
+        if(category == null) {
+            throw new IllegalArgumentException("category must not be null");
+        }
+        if(category.getArticles().contains(this)) {
+            category.getArticles().remove(this);
+        }
+        categories.remove(category);
     }
 
 
