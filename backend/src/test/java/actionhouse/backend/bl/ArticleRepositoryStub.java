@@ -43,6 +43,11 @@ public class ArticleRepositoryStub implements IArticleRepository {
     }
 
     @Override
+    public List<Article> getAll() {
+        return articles;
+    }
+
+    @Override
     public Article save(Article entity) {
         articles.add(entity);
         return entity;

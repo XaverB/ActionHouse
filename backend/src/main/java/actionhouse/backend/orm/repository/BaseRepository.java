@@ -3,6 +3,8 @@ package actionhouse.backend.orm.repository;
 import actionhouse.backend.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 
+import java.util.List;
+
 /**
  * Base class for all repositories.
  * Provides basic CRUD operations.
@@ -41,6 +43,14 @@ public abstract class BaseRepository<T> implements IBaseRepository<T> {
     @Override
     public T getById(long id) {
         return entityManager.find(typeParameterClass, id);
+    }
+
+    /**
+     * Get all entities
+     */
+    @Override
+    public List<T> getAll() {
+        return entityManager.createQuery("Select t from " + typeParameterClass.getSimpleName() + " t").getResultList();
     }
 
     /**

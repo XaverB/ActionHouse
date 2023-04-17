@@ -11,6 +11,19 @@
 
     <artifactId>backend</artifactId>
 
+    <build>
+        <resources>
+            <!-- XML dataset for db setup with DBUnit used in ConsoleManagementTool app -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>full.xml</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
@@ -27,7 +40,6 @@
             <version>2.0.7</version>
             <scope>test</scope>
         </dependency>
-
 
 
         <dependency>
@@ -66,12 +78,14 @@
             <version>1.9.2</version>
             <scope>test</scope>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.dbunit/dbunit -->
         <dependency>
             <groupId>org.dbunit</groupId>
             <artifactId>dbunit</artifactId>
             <version>2.7.3</version>
-            <scope>test</scope>
+            <!-- removed test scope to insert data on application startup -->
+            <!--<scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -87,8 +101,6 @@
             <version>5.2.0</version>
             <scope>test</scope>
         </dependency>
-
-
     </dependencies>
 
 

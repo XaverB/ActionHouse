@@ -1,12 +1,13 @@
 package actionhouse.backend.orm.domain;
 
 import jakarta.persistence.Embeddable;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @EqualsAndHashCode
 @Embeddable
 @NoArgsConstructor
+@Getter @Setter
+@ToString
 public class Address {
     private String street;
     private String city;

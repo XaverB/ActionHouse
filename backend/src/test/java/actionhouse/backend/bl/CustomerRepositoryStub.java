@@ -13,6 +13,11 @@ public class CustomerRepositoryStub implements ICustomerRepository {
     }
 
     @Override
+    public List<Customer> getAll() {
+        throw new NotYetImplementedException("Not yet implemented");
+    }
+
+    @Override
     public Customer save(Customer entity) {
         throw new NotYetImplementedException("Not yet implemented");
     }
