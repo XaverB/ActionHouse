@@ -20,16 +20,14 @@ public class Insights {
     private final IArticleRepository articleRepository;
     private final ICustomerRepository customerRepository;
 
-    public Insights() {
-        entityManager = JpaUtil.getTransactionalEntityManager();
-        articleRepository = new ArticleRepository(entityManager);
-        customerRepository = new CustomerRepository(entityManager);
-    }
-
     public Insights(EntityManager entityManager, IArticleRepository articleRepository, ICustomerRepository customerRepository) {
         this.entityManager = entityManager;
         this.articleRepository = articleRepository;
         this.customerRepository = customerRepository;
+    }
+
+    public Insights(EntityManager entityManager) {
+        this(entityManager, new ArticleRepository(entityManager), new CustomerRepository(entityManager));
     }
 
 
@@ -78,7 +76,6 @@ public class Insights {
      */
     public Double getArticlePrice(Long id) throws ArticleNotFoundException {
         Article article = articleRepository.getById(id);
-        entityManager.getTransaction().commit();
 
         if (article == null) {
             throw new ArticleNotFoundException(id);
@@ -111,7 +108,6 @@ public class Insights {
      */
     public List<Customer> getTopSellers(int count) {
         var topSellers = customerRepository.getTopSellers(count);
-        entityManager.getTransaction().commit();
         return topSellers;
     }
 
@@ -124,7 +120,6 @@ public class Insights {
      */
     public List<Article> getTopArticles(int count) {
         var articles = articleRepository.getTopArticles(count);
-        entityManager.getTransaction().commit();
         return articles;
     }
 

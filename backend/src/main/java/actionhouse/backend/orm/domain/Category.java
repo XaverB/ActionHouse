@@ -29,6 +29,7 @@ public class Category {
     private String name;
 
     @ManyToMany(cascade = {CascadeType.REFRESH})
+    @ToString.Exclude
     private Set<Article> articles = new HashSet<>();
 
     public Category(Long id, String name) {

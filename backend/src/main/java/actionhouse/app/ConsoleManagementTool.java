@@ -1,23 +1,14 @@
 package actionhouse.app;
 
+import actionhouse.app.bl.AnalyticsBl;
+import actionhouse.app.bl.ArticleBl;
+import actionhouse.app.bl.BidBl;
 import actionhouse.app.bl.CustomerBl;
-import actionhouse.app.enums.CustomerMenu;
-import actionhouse.app.enums.Menu;
+import actionhouse.app.enums.*;
+import actionhouse.app.util.Seeder;
 import actionhouse.backend.util.JpaUtil;
-import org.dbunit.IDatabaseTester;
-import org.dbunit.JdbcDatabaseTester;
-import org.dbunit.PropertiesBasedJdbcDatabaseTester;
-import org.dbunit.database.DatabaseConfig;
-import org.dbunit.database.DatabaseConnection;
-import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.operation.DatabaseOperation;
 
-import java.io.File;
-import java.io.FileInputStream;
-
-import static actionhouse.app.util.MenuHelper.readCustomerMenu;
-import static actionhouse.app.util.MenuHelper.readMenu;
+import static actionhouse.app.util.MenuHelper.*;
 
 public class ConsoleManagementTool {
 
@@ -29,13 +20,7 @@ public class ConsoleManagementTool {
     public void run() {
         System.out.println("--- ActionHouse Console Management Tool ---");
 
-        try {
-            // trigger hibernate DB creation first
-            JpaUtil.getEntityManagerFactory();
-            insertTestData();
-        } catch (Exception e) {
-            System.err.println("Error inserting test data: " + e.getMessage());
-        }
+        Seeder.setupDatabase();
 
         Menu menu;
         do {
@@ -49,46 +34,30 @@ public class ConsoleManagementTool {
                     } while (customerMenu != CustomerMenu.EXIT);
                     break;
                 case ARTICLE:
+                    ArticleMenu articleMenu;
+                    do {
+                        articleMenu = readArticleMenu();
+                        articleAction(articleMenu);
+                    } while (articleMenu != ArticleMenu.EXIT);
                     break;
                 case BIDS:
+                    BidMenu bidMenu;
+                    do {
+                        bidMenu = readBidMenu();
+                        bidAction(bidMenu);
+                    } while (bidMenu != BidMenu.EXIT);
+                    break;
+                case ANALYTICS:
+                    AnalyticsMenu analyticsMenu;
+                    do {
+                        analyticsMenu = readAnalyticsMenu();
+                        analyticsAction(analyticsMenu);
+                    } while (analyticsMenu != AnalyticsMenu.EXIT);
                     break;
                 case EXIT:
                     break;
             }
         } while (menu != Menu.EXIT);
-    }
-
-    private void insertTestData() throws Exception {
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, "org.apache.derby.jdbc.ClientDriver");
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, "jdbc:derby://localhost/AuctionHouseDb;currentSchema=APP");
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, "user");
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, "test");
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_SCHEMA, "APP");
-
-        IDatabaseTester databaseTester = new JdbcDatabaseTester(
-                "org.apache.derby.jdbc.ClientDriver",
-                "jdbc:derby://localhost/AuctionHouseDb;currentSchema=APP",
-                "user",
-                "test");
-
-        IDatabaseConnection dbUnitConn = new DatabaseConnection(databaseTester.getConnection().getConnection(), "APP");
-        dbUnitConn.getConfig().setFeature(DatabaseConfig.FEATURE_ALLOW_EMPTY_FIELDS, true);
-        DatabaseConfig dbCfg = dbUnitConn.getConfig();
-
-
-        databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
-        databaseTester.setTearDownOperation(DatabaseOperation.DELETE_ALL);
-
-        var dataSetPath = getPathToTestResources("full.xml");
-        var dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream(
-            dataSetPath
-        ));
-        databaseTester.setDataSet(dataSet);
-        DatabaseOperation.CLEAN_INSERT.execute(dbUnitConn, dataSet);
-    }
-
-    protected static String getPathToTestResources(String fileName) {
-        return ClassLoader.getSystemClassLoader().getResource(fileName).getPath();
     }
 
     private void customerAction(CustomerMenu customerMenu) {
@@ -115,4 +84,67 @@ public class ConsoleManagementTool {
                 break;
         }
     }
+
+    private void articleAction(ArticleMenu articleMenu) {
+        ArticleBl articleBl = new ArticleBl();
+
+        switch (articleMenu) {
+            case CREATE:
+                articleBl.createArticle();
+                break;
+            case UPDATE:
+                articleBl.updateArticle();
+                break;
+            case DELETE:
+                articleBl.deleteArticle();
+                break;
+            case SHOW:
+                articleBl.showArticle();
+                break;
+            case SHOW_ALL:
+                articleBl.showArticles();
+                break;
+            case EXIT:
+                System.out.println("Exit Article");
+                break;
+        }
+    }
+
+    private void bidAction(BidMenu bidMenu) {
+        BidBl bidBl = new BidBl();
+
+        switch (bidMenu) {
+            case CREATE:
+                bidBl.createBid();
+                break;
+            case DELETE:
+                bidBl.deleteBid();
+                break;
+            case EXIT:
+                System.out.println("Exit Bid");
+                break;
+        }
+    }
+
+    private void analyticsAction(AnalyticsMenu analyticsMenu) {
+        AnalyticsBl analyticsBl = new AnalyticsBl();
+        switch(analyticsMenu) {
+            case FIND_ARTICLE_BY_DESCRIPTION:
+                analyticsBl.findArticleByDescription();
+                break;
+            case GET_ARTICLE_PRICE:
+                analyticsBl.getArticlePrice();
+                break;
+            case GET_TOP_SELLERS:
+                analyticsBl.getTopSellers();
+                break;
+            case GET_TOP_ARTICLES:
+                analyticsBl.getTopArticles();
+                break;
+            case EXIT:
+                System.out.println("Exit Analytics");
+                break;
+        }
+    }
+
 }

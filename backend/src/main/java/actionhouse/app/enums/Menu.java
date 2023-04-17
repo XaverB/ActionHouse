@@ -5,5 +5,6 @@ public enum Menu {
     CUSTOMER,
     ARTICLE,
     BIDS,
+    ANALYTICS,
     EXIT
 }

@@ -36,10 +36,10 @@ public class Article {
 
     private LocalDateTime auctionEndDate;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     private Customer seller;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     private Customer buyer;
 
     // We are using ORDINAL here, because queries with the status as a condition could be common

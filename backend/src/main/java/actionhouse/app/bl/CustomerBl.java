@@ -17,8 +17,6 @@ public class CustomerBl {
      * Reads a customer from the stdin, creates a new customer and saves it to the database.
      */
     public void createCustomer() {
-
-        // read customer from stdin
         var customer = readCustomerFromStdin();
 
         try (EntityManager em = JpaUtil.getTransactionalEntityManager()) {
@@ -38,8 +36,10 @@ public class CustomerBl {
         }
     }
 
+    /**
+     * Reads a customer from the stdin, updates an existing customer and saves it to the database.
+     */
     public void updateCustomer() {
-        // read customer from stdin
         var customerId = readCustomerIdFromStdin();
         var customer = readCustomerFromStdin();
         customer.setId(customerId);
@@ -48,6 +48,11 @@ public class CustomerBl {
             var tx = em.getTransaction();
             try {
                 CustomerRepository customerRepository = new CustomerRepository(em);
+                if(customerRepository.getById(customerId) == null) {
+                    System.out.println("Customer not found");
+                    return;
+                }
+
                 customer = customerRepository.update(customer);
                 tx.commit();
             } finally {
@@ -55,12 +60,15 @@ public class CustomerBl {
                     tx.rollback();
                 }
             }
-            System.out.println("🆕 Updated customer: " + customer.getId());
+            System.out.println("📝 Updated customer: " + customer.getId());
         }catch (Exception ex) {
             System.out.println("Something bad happened 🥲: " + ex.getMessage());
         }
     }
 
+    /**
+     * Reads a customer from the stdin, deletes an existing customer and saves it to the database.
+     */
     public void deleteCustomer() {
         // read customer from stdin
         var customerId  = readCustomerIdFromStdin();
@@ -83,12 +91,15 @@ public class CustomerBl {
                     tx.rollback();
                 }
             }
-            System.out.println("🆕 Deleted customer: " + customerId);
+            System.out.println("🗑️ Deleted customer: " + customerId);
         }catch (Exception ex) {
             System.out.println("Something bad happened 🥲: " + ex.getMessage());
         }
     }
 
+    /**
+     * Reads a customer from the stdin, shows an existing customer and saves it to the database.
+     */
     public void showCustomer() {
         var customerId  = readCustomerIdFromStdin();
 
@@ -114,6 +125,9 @@ public class CustomerBl {
         }
     }
 
+    /**
+     * Reads a customer from the stdin, shows an existing customer and saves it to the database.
+     */
     public void showCustomers() {
         try (EntityManager em = JpaUtil.getTransactionalEntityManager()) {
             var tx = em.getTransaction();

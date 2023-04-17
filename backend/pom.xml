@@ -12,16 +12,16 @@
     <artifactId>backend</artifactId>
 
     <build>
-        <resources>
-            <!-- XML dataset for db setup with DBUnit used in ConsoleManagementTool app -->
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>full.xml</include>
-                </includes>
-            </resource>
-        </resources>
+<!--        <resources>-->
+<!--            &lt;!&ndash; XML dataset for db setup with DBUnit used in ConsoleManagementTool app &ndash;&gt;-->
+<!--            <resource>-->
+<!--                <directory>src/main/resources</directory>-->
+<!--                <filtering>false</filtering>-->
+<!--                <includes>-->
+<!--                    <include>full.xml</include>-->
+<!--                </includes>-->
+<!--            </resource>-->
+<!--        </resources>-->
     </build>
 
     <properties>
