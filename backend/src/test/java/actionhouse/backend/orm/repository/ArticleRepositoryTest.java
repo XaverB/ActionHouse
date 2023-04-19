@@ -19,14 +19,12 @@ public class ArticleRepositoryTest extends BaseRepositoryTest {
     private ArticleRepository articleRepository;
 
     public ArticleRepositoryTest() throws Exception {
-
-
         onSetUp();
     }
 
     @BeforeAll
-    public static void init() throws Exception {
-        JpaUtil.getEntityManagerFactory();
+    public static void init() {
+        BaseRepositoryTest.init();
     }
 
     @AfterAll

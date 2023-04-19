@@ -1,6 +1,7 @@
 package actionhouse.backend.orm.repository;
 
 import actionhouse.backend.orm.domain.*;
+import actionhouse.backend.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
@@ -30,9 +31,15 @@ public abstract class BaseRepositoryTest {
     protected IDatabaseTester databaseTester;
     protected EntityManager entityManager;
 
+    protected static void init() {
+        // hard coded string should be in config file
+        JpaUtil.PU_Name = "AuctionHousePUInMemory";
+        JpaUtil.getEntityManagerFactory();
+    }
+
     public BaseRepositoryTest() {
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, "org.apache.derby.jdbc.ClientDriver");
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, "jdbc:derby://localhost/AuctionHouseDb;currentSchema=APP");
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, "org.apache.derby.jdbc.EmbeddedDriver");
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, "jdbc:derby:memory:AuctionHouseDb;create=true;currentSchema=APP");
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, "user");
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, "test");
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_SCHEMA, "APP");
@@ -40,8 +47,8 @@ public abstract class BaseRepositoryTest {
 
     protected void onSetUp() throws Exception {
         databaseTester = new JdbcDatabaseTester(
-                "org.apache.derby.jdbc.ClientDriver",
-                "jdbc:derby://localhost/AuctionHouseDb;currentSchema=APP",
+                "org.apache.derby.jdbc.EmbeddedDriver",
+                "jdbc:derby:memory:AuctionHouseDb;create=true;currentSchema=APP",
                 "user",
                 "test");
 

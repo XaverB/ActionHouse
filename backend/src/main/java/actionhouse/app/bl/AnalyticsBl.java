@@ -135,7 +135,6 @@ public class AnalyticsBl {
             }
         } catch (Exception ex) {
             System.out.println("Something bad happened 🥲: " + ex.getMessage());
-            ex.printStackTrace();
         }
     }
 }

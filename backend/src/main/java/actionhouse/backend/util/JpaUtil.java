@@ -10,9 +10,11 @@ public class JpaUtil {
 
     private static EntityManagerFactory emFactory;
 
+    public static String PU_Name = "AuctionHousePU";
+
     public static synchronized EntityManagerFactory getEntityManagerFactory() {
         if (emFactory == null)
-            emFactory = Persistence.createEntityManagerFactory("AuctionHousePU");
+            emFactory = Persistence.createEntityManagerFactory(PU_Name);
         return emFactory;
     }
 

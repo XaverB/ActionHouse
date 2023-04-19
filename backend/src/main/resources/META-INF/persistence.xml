@@ -7,16 +7,31 @@
     <persistence-unit name="AuctionHousePU">
         <!-- The provider only needs to be set if you use several JPA providers -->
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-
-
         <properties>
-
-
             <!-- JPA 3.0 standard properties -->
             <property name="jakarta.persistence.jdbc.driver"
                       value="org.apache.derby.jdbc.ClientDriver" />
             <property name="jakarta.persistence.jdbc.url"
                       value="jdbc:derby://localhost/AuctionHouseDb;create=true" />
+
+            <property name="hibernate.dialect"
+                      value="org.hibernate.dialect.DerbyDialect" />
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.use_sql_comments" value="true" />
+            <property name="hibernate.hbm2ddl.auto" value="create" />
+            <property name="qualifiedTableNames" value="true"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="AuctionHousePUInMemory">
+        <!-- The provider only needs to be set if you use several JPA providers -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver"
+                      value="org.apache.derby.jdbc.EmbeddedDriver" />
+            <property name="jakarta.persistence.jdbc.url"
+                      value="jdbc:derby:memory:AuctionHouseDb;create=true" />
 
             <property name="hibernate.dialect"
                       value="org.hibernate.dialect.DerbyDialect" />

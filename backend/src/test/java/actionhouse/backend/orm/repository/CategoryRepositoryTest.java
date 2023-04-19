@@ -29,8 +29,8 @@ public class CategoryRepositoryTest extends BaseRepositoryTest {
     }
 
     @BeforeAll
-    public static void init() throws Exception {
-        JpaUtil.getEntityManagerFactory();
+    public static void init()  {
+        BaseRepositoryTest.init();
     }
 
     @AfterAll

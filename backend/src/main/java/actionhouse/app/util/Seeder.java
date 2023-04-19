@@ -20,6 +20,8 @@ public class Seeder {
             Seeder.insertTestData();
         } catch (Exception e) {
             System.err.println("Error inserting test data: " + e.getMessage());
+            System.err.println("⚠️ Did you start the database? If not, run maven derby plugin ⚠️");
+            e.printStackTrace();
         }
     }
 
