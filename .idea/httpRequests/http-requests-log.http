@@ -1,0 +1,639 @@
+GET http://localhost:8080/articles?status=AUCTION_RUNNING&searchTerm=Art&maxPrice=500.0
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T181046.200.json
+
+###
+
+GET http://localhost:8080/articles?status=AUCTION_RUNNING&searchTerm=Art&maxPrice=400.0
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T181038.200.json
+
+###
+
+GET http://localhost:8080/articles?status=AUCTION_RUNNING&searchTerm=Art&maxPrice=400.0
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T181037.200.json
+
+###
+
+GET http://localhost:8080/articles?status=AUCTION_RUNNING&searchTerm=Art&maxPrice=300.0
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T181028.200.json
+
+###
+
+GET http://localhost:8080/articles?status=AUCTION_RUNNING&searchTerm=4&maxPrice=300.0
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T181014.200.json
+
+###
+
+GET http://localhost:8080/articles
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T180953.200.json
+
+###
+
+GET http://localhost:8080/articles?searchTerm=4
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T180951.200.json
+
+###
+
+GET http://localhost:8080/articles?maxPrice=300.0
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T180947.200.json
+
+###
+
+GET http://localhost:8080/articles?maxPrice=300.0
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T180739.500.json
+
+###
+
+GET http://localhost:8080/articles?status=AUCTION_RUNNING
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T180732.200.json
+
+###
+
+GET http://localhost:8080/articles?status=LISTED
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T180716.200.json
+
+###
+
+GET http://localhost:8080/articles?status=LISTED
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T180713.200.json
+
+###
+
+GET http://localhost:8080/articles?searchTerm=4
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T180639.200.json
+
+###
+
+GET http://localhost:8080/articles?maxPrice=300
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T180637.500.json
+
+###
+
+GET http://localhost:8080/articles
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T180635.200.json
+
+###
+
+GET http://localhost:8080/articles?maxPrice=300
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T175427.500.json
+
+###
+
+GET http://localhost:8080/articles?maxPrice=300.0
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T175421.500.json
+
+###
+
+GET http://localhost:8080/articles?searchTerm=4
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T175409.500.json
+
+###
+
+GET http://localhost:8080/articles?maxPrice=300.0
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T175401.500.json
+
+###
+
+GET http://localhost:8080/articles?searchTerm=4
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T175305.200.json
+
+###
+
+GET http://localhost:8080/articles?maxPrice=300.0
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T175228.200.json
+
+###
+
+GET http://localhost:8080/articles?maxPrice=300.0
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T175155.200.json
+
+###
+
+GET http://localhost:8080/articles?maxPrice=300.0
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T175105.200.json
+
+###
+
+GET http://localhost:8080/articles?maxPrice=300
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T175055.200.json
+
+###
+
+GET http://localhost:8080/articles
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T174955.200.json
+
+###
+
+POST http://localhost:8080/bid
+email: John.Doe@spring.org
+Content-Type: application/json
+Content-Length: 73
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 150,
+  "bidder": "John.Doe@spring.org"
+}
+
+<> 2023-05-19T173055.400.json
+
+###
+
+POST http://localhost:8080/bid
+email: "Jane.Doe@spring.org"
+Content-Type: application/json
+Content-Length: 63
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 150,
+  "bidder": "h4ckerm3n"
+}
+
+###
+
+POST http://localhost:8080/bid
+email: "Jane.Doe@spring.org"
+Content-Type: application/json
+Content-Length: 63
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 150,
+  "bidder": "h4ckerm3n"
+}
+
+###
+
+POST http://localhost:8080/bid
+email: John.Doe@spring.org
+Content-Type: application/json
+Content-Length: 73
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 150,
+  "bidder": "John.Doe@spring.org"
+}
+
+<> 2023-05-19T173013.400.json
+
+###
+
+POST http://localhost:8080/bid
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Content-Length: 73
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 151,
+  "bidder": "Jane.Doe@spring.org"
+}
+
+<> 2023-05-19T172912.400.json
+
+###
+
+POST http://localhost:8080/bid
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Content-Length: 73
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 151,
+  "bidder": "Jane.Doe@spring.org"
+}
+
+###
+
+POST http://localhost:8080/bid
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Content-Length: 73
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 150,
+  "bidder": "Jane.Doe@spring.org"
+}
+
+<> 2023-05-19T172904.400.json
+
+###
+
+POST http://localhost:8080/bid
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Content-Length: 73
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 100,
+  "bidder": "Jane.Doe@spring.org"
+}
+
+<> 2023-05-19T172859.400.json
+
+###
+
+POST http://localhost:8080/bid
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Content-Length: 73
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 150,
+  "bidder": "Jane.Doe@spring.org"
+}
+
+###
+
+POST http://localhost:8080/bid
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Content-Length: 73
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 100,
+  "bidder": "Jane.Doe@spring.org"
+}
+
+###
+
+GET http://localhost:8080/auctions/articles
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T172734.200.json
+
+###
+
+POST http://localhost:8080/bid
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Content-Length: 73
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 150,
+  "bidder": "Jane.Doe@spring.org"
+}
+
+###
+
+POST http://localhost:8080/bid
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Content-Length: 73
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 149,
+  "bidder": "Jane.Doe@spring.org"
+}
+
+###
+
+POST http://localhost:8080/bid
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Content-Length: 73
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 150,
+  "bidder": "Jane.Doe@spring.org"
+}
+
+###
+
+POST http://localhost:8080/bid
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Content-Length: 73
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 150,
+  "bidder": "Jane.Doe@spring.org"
+}
+
+###
+
+POST http://localhost:8080/bid
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Content-Length: 73
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 150,
+  "bidder": "Jane.Doe@spring.org"
+}
+
+###
+
+POST http://localhost:8080/bid
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Content-Length: 73
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "articleId": 51,
+  "amount": 100,
+  "bidder": "Jane.Doe@spring.org"
+}
+
+###
+
+GET http://localhost:8080/auctions/articles
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T172533.200.json
+
+###
+
+GET http://localhost:8080/auctions/articles
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T172431.200.json
+
+###
+
+GET http://localhost:8080/auctions/articles
+email: Gibts net
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T172420.500.json
+
+###
+
+GET http://localhost:8080/articles?status=running
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T171932.200.json
+
+###
+
+GET http://localhost:8080/articles?status=running
+email: Gibts net
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T171801.200.json
+
+###
+
+GET http://localhost:8080/articles?status=running
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T171755.200.json
+
+###
+
+GET http://localhost:8080/articles?status=running
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T171753.200.json
+
+###
+
+GET http://localhost:8080/articles?status=running
+email: Jane.Doe@spring.org
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-19T171743.200.json
+
+###
+

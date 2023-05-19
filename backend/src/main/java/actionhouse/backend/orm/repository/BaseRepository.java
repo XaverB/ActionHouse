@@ -50,7 +50,7 @@ public abstract class BaseRepository<T> implements IBaseRepository<T> {
      */
     @Override
     public List<T> getAll() {
-        return entityManager.createQuery("Select t from " + typeParameterClass.getSimpleName() + " t").getResultList();
+        return entityManager.createQuery("Select t from " + typeParameterClass.getSimpleName() + " t", typeParameterClass).getResultList();
     }
 
     /**
