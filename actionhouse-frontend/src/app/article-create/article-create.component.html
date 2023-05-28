@@ -1,0 +1,20 @@
+<div class="container py-5">
+  <h2 class="mb-4 text-center">Create Article</h2>
+  <form [formGroup]="createArticleForm" (ngSubmit)="onSubmit()" class="mb-5 bg-light rounded p-4 shadow">
+    <div class="row">
+      <div class="col-12 col-md-6 mb-3">
+        <input type="text" class="form-control rounded-pill" placeholder="Description" formControlName="description" aria-label="Article Description">
+      </div>
+      <div class="col-12 col-md-6 mb-3">
+        <input type="number" class="form-control rounded-pill" placeholder="Price" formControlName="price" aria-label="Article Price">
+      </div>
+      <div class="col-12 mt-3">
+        <div class="input-group-append">
+          <button class="btn btn-primary rounded-pill w-100" type="submit">
+            <i class="fa fa-plus" aria-hidden="true"></i> Create Article
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

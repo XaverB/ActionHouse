@@ -1,0 +1,48 @@
+<div class="container py-5">
+  <h2 class="mb-4 text-center">Search Articles</h2>
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="mb-5 bg-light rounded p-4 shadow">
+    <div class="row">
+      <div class="col-12 col-md-4 mb-3">
+        <input type="text" class="form-control rounded-pill" placeholder="Description" formControlName="description" aria-label="Search Description">
+      </div>
+      <div class="col-12 col-md-3 mb-3">
+        <select class="form-control rounded-pill" formControlName="status">
+          <option value="" disabled selected>Select Status</option>
+          <option value="ALL">ALL</option>
+          <option value="AUCTION_RUNNING">AUCTION_RUNNING</option>
+          <option value="LISTED">LISTED</option>
+          <option value="SOLD">SOLD</option>
+          <option value="NOT_SOLD">NOT_SOLD</option>
+        </select>
+      </div>
+      <div class="col-12 col-md-3 mb-3">
+        <input type="number" class="form-control rounded-pill" placeholder="Maximum Price" formControlName="maxPrice" aria-label="Search Maximum Price">
+      </div>
+      <div class="col-12 col-md-2">
+        <div class="input-group-append">
+          <button class="btn btn-primary rounded-pill w-100" type="submit">
+            <i class="fa fa-search" aria-hidden="true"></i> 🔍
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="row">
+    <div *ngFor="let article of articles" class="col-4">
+      <div class="card mb-4 shadow">
+        <div class="card-body position-relative">
+          <span class="position-absolute top-0 end-0 mt-2 me-2 rounded-pill px-2 py-1 text-white small small-badge" [ngClass]="{
+          'bg-primary': article.status === 'AUCTION_RUNNING',
+          'bg-secondary': article.status === 'LISTED',
+          'bg-success': article.status === 'SOLD',
+          'bg-danger': article.status === 'NOT_SOLD'
+        }">{{ article.status }}</span>
+          <h5 class="card-title mt-3">{{ article.description }}</h5>
+          <p class="card-text">{{ article.price | currency}}</p>
+          <a [routerLink]="['/article', article.id]" class="btn btn-secondary mt-3">Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

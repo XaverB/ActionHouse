@@ -1,0 +1,7 @@
+.card-title {
+  font-weight: 700; /* to give title a bolder look */
+}
+
+.card-text {
+  font-size: 1.1rem; /* to slightly increase text size */
+}

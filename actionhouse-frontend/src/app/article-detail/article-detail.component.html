@@ -1,0 +1,23 @@
+<div class="container py-5">
+  <div class="card mb-4 shadow">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Description: {{article.description}}</h5>
+      <p class="card-text">Price: {{article.price | currency }}</p>
+      <p class="card-text">Seller: {{article.seller}}</p>
+      <p class="card-text">Status: {{article.status}}</p>
+      <p class="card-text">Buyer: {{article.buyer}}</p>
+      <div class="d-flex justify-content-start">
+        <button class="btn btn-danger mr-2" (click)="deleteArticle()" *ngIf="article.seller === user && article.status === 'LISTED'">Delete</button>
+        <button class="btn btn-primary mr-2" (click)="openAuction()" *ngIf="article.seller === user && article.status === 'LISTED'">Open auction</button>
+        <button class="btn btn-primary" (click)="closeAuction()" *ngIf="article.seller === user && article.status === 'AUCTION_RUNNING'">Close auction</button>
+      </div>
+    </div>
+  </div>
+  <div class="input-group mb-3 bg-light rounded p-3 shadow" [formGroup]="bidForm" *ngIf="article.seller !== user && article.status === 'AUCTION_RUNNING'">
+    <input type="number" class="form-control rounded-pill" placeholder="Your Bid" aria-label="Bid" aria-describedby="button-addon2" formControlName="bidValue">
+    <div class="input-group-append">
+      <button class="btn btn-primary rounded-pill" type="button" id="button-addon2" [disabled]="!bidForm.controls['bidValue'].valid"
+              (click)="placeBid()">Bid</button>
+    </div>
+  </div>
+</div>

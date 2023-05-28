@@ -1,0 +1,21 @@
+.small-badge {
+  font-size: 0.6rem !important;
+  padding: 0.1rem 0.3rem !important;
+}
+
+
+.rounded-pill {
+  border-radius: 50px !important; /* to create rounded inputs and buttons */
+}
+
+.small-badge {
+  font-size: 0.7rem; /* to make the badge text a bit smaller */
+}
+
+.shadow {
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* to create a light shadow effect */
+}
+
+.container {
+  max-width: 960px; /* to make the container a bit narrower for a more modern look */
+}
