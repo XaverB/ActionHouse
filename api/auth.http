@@ -1,0 +1,150 @@
+### Login 401
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+    {
+        "email": "gibtsnet",
+        "password": "soginet"
+    }
+
+### Login 200
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "Jane.Doe@spring.org",
+  "password": "geheimigeheim"
+}
+
+### GET articles running 200
+GET http://localhost:8080/articles
+email: Jane.Doe@spring.org
+Content-Type: application/json
+
+### GET articles running filtered by price 200
+GET http://localhost:8080/articles?maxPrice=300.0
+email: Jane.Doe@spring.org
+Content-Type: application/json
+
+### GET articles running filtered by description 200
+GET http://localhost:8080/articles?searchTerm=4
+email: Jane.Doe@spring.org
+Content-Type: application/json
+
+### GET articles running filtered by status 200
+GET http://localhost:8080/articles?status=LISTED
+email: Jane.Doe@spring.org
+Content-Type: application/json
+
+### GET articles running filtered by status SOLD 200
+GET http://localhost:8080/articles?status=SOLD
+email: Jane.Doe@spring.org
+Content-Type: application/json
+
+### GET articles running filtered by status NOT SOLD 200
+GET http://localhost:8080/articles?status=NOT_SOLD
+email: Jane.Doe@spring.org
+Content-Type: application/json
+
+### GET articles running filtered by status 2 200
+GET http://localhost:8080/articles?status=AUCTION_RUNNING
+email: Jane.Doe@spring.org
+Content-Type: application/json
+
+### GET articles running filtered by everything 2 200
+GET http://localhost:8080/articles?status=AUCTION_RUNNING&searchTerm=Art&maxPrice=500.0
+email: Jane.Doe@spring.org
+Content-Type: application/json
+
+### GET articles running 400
+GET http://localhost:8080/articles
+Content-Type: application/json
+
+### GET articles running 401
+GET http://localhost:8080/articles
+email: Gibts net
+Content-Type: application/json
+
+### Bid 200 1
+POST http://localhost:8080/bid
+email: Jane.Doe@spring.org
+Content-Type: application/json
+
+{
+  "articleId": 51,
+  "amount": 100,
+  "bidder": "Jane.Doe@spring.org"
+}
+
+### Bid 200 2
+POST http://localhost:8080/bid
+email: Jane.Doe@spring.org
+Content-Type: application/json
+
+{
+  "articleId": 51,
+  "amount": 150,
+  "bidder": "Jane.Doe@spring.org"
+}
+
+### Bid 401 - email and bidder missmatch
+POST http://localhost:8080/bid
+email: "Jane.Doe@spring.org"
+Content-Type: application/json
+
+{
+  "articleId": 51,
+  "amount": 150,
+  "bidder": "h4ckerm3n"
+}
+
+### Bid 401 - Seller cannot bid on the own article
+POST http://localhost:8080/bid
+email: John.Doe@spring.org
+Content-Type: application/json
+
+{
+  "articleId": 51,
+  "amount": 150,
+  "bidder": "John.Doe@spring.org"
+}
+
+### Create Article 200
+POST http://localhost:8080/articles
+email: John.Doe@spring.org
+Content-Type: application/json
+
+{
+  "description": "Artikel NEU",
+  "price": 20.0
+}
+
+### Delete Article 400 - Auction still running
+DELETE http://localhost:8080/articles/51
+email: John.Doe@spring.org
+Content-Type: application/json
+
+### Delete Article 200
+DELETE http://localhost:8080/articles/56
+email: John.Doe@spring.org
+Content-Type: application/json
+
+### PUT articles/id/auciton to start auction 200
+PUT http://localhost:8080/articles/57/auction?action=START
+email: John.Doe@spring.org
+Content-Type: application/json
+
+### PUT articles/id/auciton to stop without bid auction 200
+PUT http://localhost:8080/articles/58/auction?action=STOP
+email: John.Doe@spring.org
+Content-Type: application/json
+
+### PUT articles/id/auciton to stop with bid auction 200
+PUT http://localhost:8080/articles/59/auction?action=STOP
+email: John.Doe@spring.org
+Content-Type: application/json
+
+
+
+
+
